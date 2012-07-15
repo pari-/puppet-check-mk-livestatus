@@ -1,0 +1,29 @@
+#
+# this file is managed by puppet!
+#
+
+service livestatus
+{
+	type		= <%= scope.lookupvar('check_mk_livestatus::xinetd_type') %>
+	port		= <%= scope.lookupvar('check_mk_livestatus::xinetd_port') %>
+	socket_type	= <%= scope.lookupvar('check_mk_livestatus::xinetd_socket_type') %>
+	protocol	= <%= scope.lookupvar('check_mk_livestatus::xinetd_protocol') %>
+	wait		= <%= scope.lookupvar('check_mk_livestatus::xinetd_wait') %>
+# limit to 100 connections per second. Disable 3 secs if above.
+	cps		= <%= scope.lookupvar('check_mk_livestatus::xinetd_cps_limit') %> <%= scope.lookupvar('check_mk_livestatus::xinetd_cps_ban') %>
+# set the number of maximum allowed parallel instances of unixcat.
+# Please make sure that this values is at least as high as
+# the number of threads defined with num_client_threads in
+# etc/mk-livestatus/nagios.cfg
+	instances	= <%= scope.lookupvar('check_mk_livestatus::xinetd_instances') %>
+# limit the maximum number of simultaneous connections from
+# one source IP address
+	per_source	= <%= scope.lookupvar('check_mk_livestatus::xinetd_per_source') %>
+# Disable TCP delay, makes connection more responsive
+	flags		= <%= scope.lookupvar('check_mk_livestatus::xinetd_flags') %>
+	user		= <%= scope.lookupvar('check_mk_livestatus::xinetd_user') %>
+	server		= <%= scope.lookupvar('check_mk_livestatus::xinetd_server') %>
+	server_args	= <%= scope.lookupvar('check_mk_livestatus::xinetd_server_args') %>
+	only_from	= <%= scope.lookupvar('check_mk_livestatus::xinetd_only_from').join(' ') %> 
+	disable		= <%= scope.lookupvar('check_mk_livestatus::xinetd_disable') %>
+}
